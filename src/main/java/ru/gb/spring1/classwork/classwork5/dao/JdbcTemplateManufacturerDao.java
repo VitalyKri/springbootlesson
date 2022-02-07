@@ -28,6 +28,11 @@ public class JdbcTemplateManufacturerDao implements ManufacturerDao {
     }
 
     @Override
+    public Manufacturer save(Manufacturer manufacturer) {
+        return null;
+    }
+
+    @Override
     public void insert(Manufacturer manufacturer) {
 
     }

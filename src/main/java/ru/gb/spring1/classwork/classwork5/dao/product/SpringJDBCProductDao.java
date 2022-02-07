@@ -1,9 +1,6 @@
 package ru.gb.classwork5.dao.product;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-import ru.gb.classwork5.entity.Manufacturer;
 import ru.gb.classwork5.entity.Product;
 
 import javax.sql.DataSource;
@@ -11,8 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 //@Component
 @RequiredArgsConstructor
@@ -24,7 +20,7 @@ public class SpringJDBCProductDao implements ProductDao{
 
 
     @Override
-    public Iterable<Product> findAll() {
+    public List<Product> findAll() {
         return null;
     }
 

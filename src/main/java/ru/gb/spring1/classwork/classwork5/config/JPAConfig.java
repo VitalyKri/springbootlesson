@@ -1,6 +1,5 @@
 package ru.gb.classwork5.config;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,12 +7,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.Driver;
 import java.util.Properties;
 
@@ -22,7 +25,9 @@ import java.util.Properties;
 @ComponentScan("ru.gb.classwork5")
 @EnableTransactionManagement
 @PropertySource("classpath:dao/jdbc.properties")
-public class HibernateConfig {
+public class JPAConfig {
+
+
     @Value("${driverClassName}")
     private String driverClassName;
     @Value("${url}")
@@ -49,21 +54,6 @@ public class HibernateConfig {
         return null;
     }
 
-    @Bean
-    public SessionFactory sessionFactory() throws IOException {
-        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-        sessionFactoryBean.setDataSource(dataSource());
-        sessionFactoryBean.setPackagesToScan("ru.gb.classwork5");
-        sessionFactoryBean.setHibernateProperties(hibernateProperties());
-        sessionFactoryBean.afterPropertiesSet();
-        return sessionFactoryBean.getObject();
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager() throws IOException {
-        return new HibernateTransactionManager(sessionFactory());
-    }
-
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.ProgressDialect");// он сам решает какой синтаксис SQL
@@ -74,5 +64,29 @@ public class HibernateConfig {
         hibernateProperties.put("hibernate.jdbc.batch_size", 10); // какими пачками загружаются апдайты в 1 тразнакции
         hibernateProperties.put("hibernate.fetch_size", 50);
         return hibernateProperties;
+    }
+
+
+
+    @Bean
+    public EntityManagerFactory entityManagerFactory(){
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setPackagesToScan("ru.gb.classwork5"); // папка где сканируются бины
+        factoryBean.setDataSource(dataSource());
+        factoryBean.setJpaVendorAdapter(jpaVendorAdapter()); // кто у нас вендор
+        factoryBean.setJpaProperties(hibernateProperties());
+        factoryBean.afterPropertiesSet(); // инициализируется бин
+        return factoryBean.getNativeEntityManagerFactory();
+
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(){
+        return new JpaTransactionManager(entityManagerFactory());
+    }
+
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter(){
+        return new HibernateJpaVendorAdapter();
     }
 }

@@ -110,3 +110,5 @@ insert into PRODUCT (title, cost, MANUFACTURE_DATE, MANUFACTURER_ID) values ('Wa
 insert into PRODUCT (title, cost, MANUFACTURE_DATE, MANUFACTURER_ID) values ('Red Currants', 3170.31, '8/17/2021', 4);
 insert into PRODUCT (title, cost, MANUFACTURE_DATE, MANUFACTURER_ID) values ('Soup - Base Broth Chix', 3869.8, '8/14/2021', 8);
 insert into PRODUCT (title, cost, MANUFACTURE_DATE, MANUFACTURER_ID) values ('Glass - Juice Clear 5oz 55005', 155.34, '10/31/2021', 10);
+
+

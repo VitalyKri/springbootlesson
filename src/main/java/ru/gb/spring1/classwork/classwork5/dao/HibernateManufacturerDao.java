@@ -8,6 +8,7 @@ import ru.gb.classwork5.entity.Manufacturer;
 
 
 import java.util.Collections;
+import java.util.List;
 
 //@Repository
 @RequiredArgsConstructor
@@ -19,6 +20,14 @@ public class HibernateManufacturerDao implements ManufacturerDao {
     @Transactional(readOnly = true)
     public Iterable<Manufacturer> findAll() {
         return Collections.unmodifiableList(sessionFactory.getCurrentSession().createQuery("from Manufacturer m").list());
+
+
+    }
+
+    @Override
+    public Manufacturer save(Manufacturer manufacturer) {
+        sessionFactory.getCurrentSession().saveOrUpdate(manufacturer);
+        return manufacturer;
     }
 
     @Override
@@ -47,6 +56,8 @@ public class HibernateManufacturerDao implements ManufacturerDao {
 
     @Override
     public void deleteById(Long id) {
-
+        final Manufacturer manufacturer = new Manufacturer();
+        manufacturer.setId(id);
+        sessionFactory.getCurrentSession().delete(manufacturer);
     }
 }

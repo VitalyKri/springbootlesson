@@ -7,15 +7,16 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.gb.classwork5.entity.Product;
 
 import java.util.Collections;
+import java.util.List;
 
-@Repository
+//@Repository
 @RequiredArgsConstructor
 public class HibernateProductDao implements ProductDao {
     private final SessionFactory sessionFactory;
 
     @Override
     @Transactional(readOnly = true)
-    public Iterable<Product> findAll() {
+    public List<Product> findAll() {
         return Collections.unmodifiableList(sessionFactory.getCurrentSession().getNamedQuery("Product.getAll").list());
     }
 

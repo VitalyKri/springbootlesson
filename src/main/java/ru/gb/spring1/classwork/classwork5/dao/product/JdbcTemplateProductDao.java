@@ -2,7 +2,6 @@ package ru.gb.classwork5.dao.product;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import ru.gb.classwork5.entity.Product;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public class JdbcTemplateProductDao implements ProductDao {
     private final JdbcTemplate jdbcTemplate;
 
     @Override
-    public Iterable<Product> findAll() {
+    public List<Product> findAll() {
         List<Product> query = jdbcTemplate.query("select * from product",
                 (rs, rowNum) -> Product.builder()
                         .id(rs.getLong("id"))

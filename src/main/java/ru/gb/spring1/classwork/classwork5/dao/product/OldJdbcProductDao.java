@@ -1,11 +1,11 @@
 package ru.gb.classwork5.dao.product;
 
-import org.springframework.stereotype.Component;
 import ru.gb.classwork5.entity.Product;
 
 import java.sql.*;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //@Component
@@ -29,9 +29,9 @@ public class OldJdbcProductDao implements ProductDao{
     }
 
     @Override
-    public Iterable<Product> findAll() {
+    public List<Product> findAll() {
         Connection connection = null;
-        Set<Product> productSet = new HashSet<>();
+        List<Product> productSet = new ArrayList<>();
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM product");

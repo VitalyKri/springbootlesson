@@ -20,6 +20,11 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class NamedParameterJDBCTemplateManufacturerDao implements ManufacturerDao {
 
+    @Override
+    public Manufacturer save(Manufacturer manufacturer) {
+        return null;
+    }
+
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override

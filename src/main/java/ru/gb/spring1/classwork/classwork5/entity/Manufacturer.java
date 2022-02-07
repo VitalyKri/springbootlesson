@@ -28,7 +28,7 @@ public class Manufacturer {
     @Column(name = "name")
     private String name;
 
-    @Transient
+    @OneToMany(mappedBy = "manufacturer",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Product> products;
 
     public boolean addProduct(Product product) {
